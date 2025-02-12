@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARM64_AmsiPatch", "ARM64_AmsiPatch\ARM64_AmsiPatch.csproj", "{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM64 = Debug|ARM64
+		Release|Any CPU = Release|Any CPU
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Debug|ARM64.Build.0 = Debug|ARM64
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Release|ARM64.ActiveCfg = Release|ARM64
+		{1BFC8F2F-3D2D-4F8C-A56B-2BB2E0D35674}.Release|ARM64.Build.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
