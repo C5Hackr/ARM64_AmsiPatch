@@ -95,7 +95,7 @@ Both patches achieve the same outcome:
 
 When patching, these byte sequences can be directly written into the AmsiScanBuffer prologue to bypass scanning.
 
-## Additionally, a conversion table for x86_64 to ARM64 registers can be found below.
+## Additionally, a handmade conversion table for x86_64 to ARM64 registers can be found below.
 ```asm
 x64 (x86-64)        ->   ARM64 (AArch64)
 ----------------------------------------
