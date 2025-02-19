@@ -88,7 +88,7 @@ C0 03 5F D6 ; ret
 - **x86_64**: `mov eax, imm32` can load a 32-bit value directly.
 - **ARM64**: Immediate values are encoded differently, large values require `movz` + `movk` to construct a 32-bit constant.
 
-### Detailed Explanation
+## Detailed Explanation
 
 #### x86_64 (Simple)
 When you see this:
