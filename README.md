@@ -88,6 +88,73 @@ C0 03 5F D6 ; ret
 - **x86_64**: `mov eax, imm32` can load a 32-bit value directly.
 - **ARM64**: Immediate values are encoded differently, large values require `movz` + `movk` to construct a 32-bit constant.
 
+### Detailed Explanation
+
+#### x86_64 (Simple)
+When you see this:
+```mov eax, 0x80070057```
+This is straightforward. The x86_64 architecture allows you to load a 32-bit immediate value into a register with a single instruction. This is because the instruction encoding allows a full **32-bit immediate** to be embedded directly.
+
+Hex representation:
+```asm
+B8 57 00 07 80  ; mov eax, 0x80070057
+C3              ; ret
+```
+
+The `B8` opcode is a **MOV** immediate to **EAX** (32-bit register), and it is followed by the **4 bytes of the immediate value** (little-endian):
+```0x80070057 -> 57 00 07 80```
+
+Simple and efficient.
+
+#### ARM64 (Why the Extra Work?)
+ARM64 has a different design when it comes to loading immediate values into registers. It doesn't have a single instruction that can just stuff a full 32-bit (or 64-bit) value directly into a register. Instead, it has a more flexible but more complex **immediate encoding scheme**.
+
+Key Instructions:  
+| Instruction | Purpose |  
+|-------------|-------------------------------|  
+| **MOVZ**    | Move **zero**. Loads a 16-bit immediate into a register and **zeros out the rest**. |  
+| **MOVK**    | Move **keep**. Loads a 16-bit immediate into a specific **16-bit portion** of a register **without changing the rest**. |
+
+These two are often used together to build larger constants.
+
+#### Breaking Down the Example:
+```asm
+movz x0, #0x0057                         ; Load 0x57 into the lower 16 bits of x0, zeroing the rest
+movk x0, #0x8007, lsl #16                ; Insert 0x8007 into bits [16-31] of x0, keeping lower bits unchanged
+ret                                      ; Return from function
+```
+
+**MOVZ X0, #0x0057**  
+- `MOVZ` puts `0x0057` in the **lowest 16 bits** of `x0`.
+- All other bits in `x0` are zeroed out.
+- Register after this:
+  ```x0 = 0x0000 0000 0000 0057```
+
+**MOVK X0, #0x8007, LSL #16**  
+- `MOVK` means **Move Keep** – it **modifies only a 16-bit chunk**, leaving the rest of `x0` untouched.
+- `#0x8007` is the 16-bit immediate to insert.
+- `LSL #16` means **shift the immediate up by 16 bits** before placing it.
+- This updates bits **16 to 31** of `x0` while keeping the lower and higher bits the same.
+- Register after this:
+  ```x0 = 0x0000 0000 8007 0057```
+
+**Final Register Value:**  
+```x0 = 0x0000000080070057```
+
+This achieves the same result as the x86 instruction, just using a different mechanism.
+
+#### Why ARM64 Does It This Way:
+- ARM64 prioritizes **uniform instruction encoding** and **constant-size instructions (4 bytes each)**.
+- Encoding a **full 32-bit or 64-bit immediate** directly into a single instruction would require a **larger instruction** or **complicate the encoding scheme**.
+- Instead, ARM64's approach lets you build large constants **piece by piece** with `MOVZ` and `MOVK`, **while keeping all instructions 32-bit wide**.
+
+#### Quick Summary of the Opcodes:
+| Opcode | Meaning                        | Common Use Case |
+|--------|---------------------------------|-----------------|
+| **MOVZ** | Move Zero: Load 16-bit immediate with zeros | Initialize a register with a small constant |
+| **MOVK** | Move Keep: Load 16-bit immediate into a part of a register | Update parts of a large constant |
+
+
 ## End Result:
 Both patches achieve the same outcome:
 - **x86_64 → Set `eax` to `0x80070057` → Return**
