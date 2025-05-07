@@ -164,7 +164,7 @@ When patching, these byte sequences can be directly written into the AmsiScanBuf
 
 ## Additionally, a handmade conversion table for x86_64 to ARM64 registers can be found below.
 ```asm
-x64 (x86-64)        ->   ARM64 (AArch64)
+x64 (x86-64)        ->  ARM64 (AArch64)
 ----------------------------------------
 RSP  (Stack Ptr)    ->  SP  (Stack Ptr)
 RBP  (Frame Ptr)    ->  FP  (X29 - Frame Ptr)
